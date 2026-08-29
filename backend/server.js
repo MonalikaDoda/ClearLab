@@ -3,7 +3,6 @@ import express from 'express';
 import connectDB from './config/db.js';
 import patientRoutes from './routes/patients.js';
 import serviceRoutes from './routes/services.js';
-import invoiceRoutes from './routes/invoices.js';
 
 dotenv.config();
 
@@ -13,7 +12,7 @@ app.use(express.json());
 
 app.use('/api/patients', patientRoutes);
 app.use('/api/services', serviceRoutes);
-app.use('/api/invoices', invoiceRoutes);
+// app.use('/api/invoices', invoiceRoutes);
 
 const PORT = process.env.PORT || 5000;
 
