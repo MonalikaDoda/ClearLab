@@ -19,7 +19,7 @@ const buildReminderPrompt = ({ patientName, totalAmount, amountPaid, amountPendi
     toneInstruction = 'Keep the message brief, warm, and professional.';
   }
 
-  return `Write a short payment reminder message for a patient named ${patientName}. The total amount due is $${formattedTotal}, the patient has paid $${formattedPaid}, and the remaining amount pending is $${formattedPending}. ${toneInstruction} Keep it to 2-4 sentences, easy to understand, and suitable for a healthcare billing context. Do not include extra formatting or bullets. Just return the message text.`;
+  return `Write a short payment reminder message for a patient named ${patientName}. All amounts below are in Indian Rupees (₹). The total amount due is ₹${formattedTotal}, the patient has paid ₹${formattedPaid}, and the remaining amount pending is ₹${formattedPending}. ${toneInstruction} Keep it to 2-4 sentences, easy to understand, and suitable for a healthcare billing context. Do not include extra formatting or bullets. Just return the message text.`;
 };
 
 const extractOpenRouterMessage = (payload) => {
@@ -51,7 +51,7 @@ const extractGeminiMessage = (payload) => {
 
 const callOpenRouter = async (prompt) => {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 5000);
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
 
   try {
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -86,35 +86,43 @@ const callOpenRouter = async (prompt) => {
 };
 
 const callGemini = async (prompt) => {
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        contents: [{
-          role: 'user',
-          parts: [{ text: prompt }],
-        }],
-      }),
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            role: 'user',
+            parts: [{ text: prompt }],
+          }],
+        }),
+        signal: controller.signal,
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Gemini request failed: ${response.status} ${errorText}`);
     }
-  );
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Gemini request failed: ${response.status} ${errorText}`);
+    const data = await response.json();
+    const message = extractGeminiMessage(data);
+
+    if (!message) {
+      throw new Error('Gemini response did not include message text');
+    }
+
+    return { message, generatedBy: 'gemini' };
+  } finally {
+    clearTimeout(timeoutId);
   }
-
-  const data = await response.json();
-  const message = extractGeminiMessage(data);
-
-  if (!message) {
-    throw new Error('Gemini response did not include message text');
-  }
-
-  return { message, generatedBy: 'gemini' };
 };
 
 export const generateReminderMessage = async ({
@@ -141,12 +149,20 @@ export const generateReminderMessage = async ({
       const result = await callOpenRouter(prompt);
       return result;
     } catch (error) {
-      const fallback = await callGemini(prompt);
-      return fallback;
+      try {
+        const fallback = await callGemini(prompt);
+        return fallback;
+      } catch (geminiError) {
+        return {
+          message: 'The AI service is temporarily unavailable. Please try again in a moment.',
+          generatedBy: null,
+          error: true,
+        };
+      }
     }
   } catch (error) {
     return {
-      message: null,
+      message: 'The AI service is temporarily unavailable. Please try again in a moment.',
       generatedBy: null,
       error: true,
     };

@@ -30,6 +30,10 @@ const invoiceSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  reminderCount: {
+    type: Number,
+    default: 0,
+  },
   flaggedForReview: {
     type: Boolean,
     default: false,

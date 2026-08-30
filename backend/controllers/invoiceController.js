@@ -1,5 +1,6 @@
 import Invoice from '../models/Invoice.js';
 import Service from '../models/Service.js';
+import { generateReminderMessage } from '../services/aiService.js';
 
 export const createInvoice = async (req, res) => {
   try {
@@ -49,6 +50,8 @@ export const recordPayment = async (req, res) => {
       return res.status(404).json({ message: 'Invoice not found' });
     }
 
+    if (amount <= 0) return res.status(400).json({ message: 'Invalid amount' });
+
     invoice.amountPaid += Number(amount);
 
     if (invoice.amountPaid >= invoice.totalAmount) {
@@ -84,5 +87,42 @@ export const getFlaggedInvoices = async (req, res) => {
     res.status(200).json(invoices);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const generateReminder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const invoice = await Invoice.findById(id).populate('patientId');
+
+    if (!invoice) {
+      return res.status(404).json({ message: 'Invoice not found' });
+    }
+
+    const patientName = invoice.patientId?.name || 'Patient';
+    const nextReminderCount = (Number(invoice.reminderCount) || 0) + 1;
+
+    const reminder = await generateReminderMessage({
+      patientName,
+      totalAmount: invoice.totalAmount,
+      amountPaid: invoice.amountPaid,
+      reminderCount: nextReminderCount,
+    });
+
+    if (reminder?.error || !reminder?.message) {
+      return res.status(503).json({ message: reminder?.message || 'The AI service is temporarily unavailable. Please try again in a moment.' });
+    }
+
+    invoice.reminderCount = nextReminderCount;
+    invoice.reminderDraft = reminder.message;
+    await invoice.save();
+
+    return res.status(200).json({
+      message: invoice.reminderDraft,
+      reminderCount: invoice.reminderCount,
+      generatedBy: reminder.generatedBy || null,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
 };
