@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root { font-family: 'DM Sans', sans-serif; color: #17313a; background: #f4f6f8; font-synthesis: none; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; background: #f4f6f8; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .62; }
+.app-shell { min-height: 100vh; }
+.app-header { display: flex; align-items: center; justify-content: space-between; padding: 22px max(24px, calc((100vw - 1180px) / 2)); background: #fff; border-bottom: 1px solid #dbe4e7; }
+.brand-lockup, .header-meta, .review-summary, .panel-heading, .intro-row, .invoice-total { display: flex; align-items: center; }
+.brand-lockup { gap: 12px; }
+.brand-mark { display: grid; place-items: center; width: 42px; height: 42px; color: #fff; background: #267d83; font: 700 14px 'Space Grotesk', sans-serif; letter-spacing: .04em; }
+h1, h2 { margin: 0; font-family: 'Space Grotesk', sans-serif; color: #17313a; }
+h1 { font-size: 1.35rem; letter-spacing: -.04em; }
+h2 { font-size: 1.35rem; letter-spacing: -.035em; }
+.brand-lockup p, .intro-copy, .review-item p, .muted, .empty-state { margin: 3px 0 0; color: #6f8389; font-size: .87rem; }
+.header-meta { gap: 8px; color: #6f8389; font-size: .8rem; }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: #3d9c78; }
+.content-wrap { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 54px 0 80px; }
+.intro-row { justify-content: space-between; align-items: flex-end; margin-bottom: 28px; }
+.intro-row h2 { font-size: 2.05rem; }
+.intro-copy { margin-top: 8px; font-size: .95rem; }
+.eyebrow { margin: 0 0 8px; color: #267d83; font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.panel { margin-top: 20px; padding: 26px; background: #fff; border: 1px solid #dbe4e7; }
+.top-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.top-grid .panel { margin-top: 0; }
+.panel-heading { justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+.panel-index, .count-label { color: #90a1a6; font-size: .78rem; }
+form { display: grid; gap: 15px; }
+label, legend { color: #526970; font-size: .78rem; font-weight: 600; }
+label { display: grid; gap: 7px; }
+input, select { width: 100%; min-height: 42px; padding: 10px 12px; color: #17313a; background: #fbfcfc; border: 1px solid #cad8dc; border-radius: 2px; outline: none; }
+input:focus, select:focus { border-color: #267d83; box-shadow: 0 0 0 3px rgba(38, 125, 131, .12); }
+.button { min-height: 40px; padding: 0 16px; border: 0; border-radius: 2px; font-weight: 700; }
+.button-primary { margin-top: 4px; color: #fff; background: #267d83; }
+.button-primary:hover { background: #1e676c; }
+.button-secondary { color: #267d83; background: #e9f3f2; }
+.button-small { min-height: 32px; padding: 0 11px; font-size: .75rem; }
+.text-button { padding: 0; color: #267d83; background: none; border: 0; font-size: .78rem; font-weight: 700; }
+.refresh-button { margin-bottom: 4px; }
+.success-message, .error-message, .warning-message { margin: 15px 0 0; font-size: .78rem; }
+.success-message { color: #327d63; }.error-message { color: #ad4e4b; }.warning-message { color: #9a6a1e; padding: 9px 11px; background: #fff8e7; border-left: 3px solid #d5a136; }
+fieldset { min-width: 0; padding: 0; border: 0; }
+legend { margin-bottom: 9px; }
+.service-checklist { display: grid; max-height: 210px; overflow-y: auto; border-top: 1px solid #e2eaec; }
+.service-option { display: grid; grid-template-columns: 18px 1fr auto; align-items: center; gap: 10px; padding: 12px 2px; border-bottom: 1px solid #e2eaec; }
+.service-option input { width: 16px; min-height: 16px; accent-color: #267d83; }.service-option span { color: #344f57; font-weight: 500; }.service-option strong, .money { color: #17313a; font-family: 'Space Grotesk', sans-serif; font-size: .96rem; }
+.invoice-total { justify-content: space-between; margin: 22px 0 4px; padding-top: 17px; border-top: 1px solid #dbe4e7; color: #6f8389; font-size: .82rem; }.invoice-total strong { color: #17313a; font: 700 1.5rem 'Space Grotesk', sans-serif; }
+.table-wrap { overflow-x: auto; }table { width: 100%; border-collapse: collapse; text-align: left; }th { padding: 0 14px 12px; color: #809197; font-size: .68rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }td { padding: 16px 14px; border-top: 1px solid #e2eaec; font-size: .86rem; }th:first-child, td:first-child { padding-left: 0; }td strong { display: block; }td small { display: block; margin-top: 3px; color: #8a9a9f; font-size: .75rem; }.action-cell { min-width: 190px; text-align: right; }.payment-editor { display: flex; align-items: center; justify-content: flex-end; gap: 7px; }.payment-editor input { width: 90px; min-height: 32px; padding: 6px 8px; font-size: .75rem; }
+.status-badge { display: inline-block; padding: 5px 9px; border-radius: 20px; font-size: .7rem; font-weight: 700; text-transform: capitalize; }.status-badge.unpaid { color: #607077; background: #edf0f1; }.status-badge.partial { color: #946a20; background: #fff1c9; }.status-badge.paid { color: #28765c; background: #dff2e9; }
+.review-list { display: grid; gap: 0; }.review-item { padding: 17px 0; border-top: 1px solid #e2eaec; }.review-summary { justify-content: space-between; gap: 18px; }.review-summary strong { font-size: .94rem; }.review-card p { line-height: 1.6; }.reminder-card { margin-top: 14px; padding: 16px; background: #f4f8f8; border-left: 3px solid #267d83; }.reminder-card p { margin: 0; color: #34545c; line-height: 1.65; }.reminder-card span { display: block; margin-top: 10px; color: #7a9298; font-size: .7rem; }.global-error { display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px; color: #9b4c4a; background: #fff0ef; border: 1px solid #efd0ce; font-size: .82rem; }.loading-state { padding: 50px 0; color: #6f8389; }.empty-state { padding: 14px 0; }
+@media (max-width: 700px) { .app-header { padding: 18px 20px; }.header-meta { display: none; }.content-wrap { width: min(100% - 32px, 560px); padding-top: 35px; }.intro-row { align-items: flex-start; gap: 20px; }.intro-row h2 { font-size: 1.7rem; }.refresh-button { white-space: nowrap; }.top-grid { grid-template-columns: 1fr; gap: 0; }.panel { padding: 21px; }.panel-heading { margin-bottom: 20px; }th, td { padding-right: 10px; }.table-panel { padding-right: 12px; padding-left: 12px; }.action-cell { min-width: 165px; }.review-summary { align-items: flex-start; flex-direction: column; }.review-summary .button { width: 100%; } }
