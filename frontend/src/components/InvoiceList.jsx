@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { recordPayment } from '../api/api';
 
-const formatCurrency = (amount) => `$${Number(amount || 0).toFixed(2)}`;
+const formatCurrency = (amount) => `₹${Number(amount || 0).toFixed(2)}`;
 
 function InvoiceList({ invoices, onUpdated }) {
 	const [paymentId, setPaymentId] = useState(null);

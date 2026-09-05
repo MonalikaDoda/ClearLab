@@ -5,6 +5,8 @@ import ServiceForm from './components/ServiceForm';
 import InvoiceForm from './components/InvoiceForm';
 import InvoiceList from './components/InvoiceList';
 import FlaggedReviewPanel from './components/FlaggedReviewPanel';
+import StatsStrip from './components/StatsStrip';
+import AnalyticsChart from './components/AnalyticsChart';
 import './App.css';
 
 function App() {
@@ -39,7 +41,7 @@ function App() {
 			<div className="content-wrap">
 				<section className="intro-row"><div><p className="eyebrow">Operations / {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p><h2>Billing overview</h2><p className="intro-copy">Keep patient accounts, services, and follow-ups in one clear view.</p></div><button className="text-button refresh-button" onClick={handleRefresh}>Refresh data ↻</button></section>
 				{error && <div className="global-error">{error} <button className="text-button" onClick={refreshData}>Try again</button></div>}
-				{isLoading ? <div className="loading-state">Loading billing records...</div> : <><div className="top-grid"><PatientForm onCreated={handleRefresh} /><ServiceForm onCreated={handleRefresh} /></div><InvoiceForm patients={patients} services={services} onCreated={handleRefresh} /><InvoiceList invoices={invoices} onUpdated={refreshData} /><FlaggedReviewPanel invoices={flaggedInvoices} onUpdated={refreshData} /></>}
+				{isLoading ? <div className="loading-state">Loading billing records...</div> : <><StatsStrip invoices={invoices} /><AnalyticsChart invoices={invoices} /><div className="top-grid"><PatientForm onCreated={handleRefresh} /><ServiceForm onCreated={handleRefresh} /></div><InvoiceForm patients={patients} services={services} onCreated={handleRefresh} /><InvoiceList invoices={invoices} onUpdated={refreshData} /><FlaggedReviewPanel invoices={flaggedInvoices} onUpdated={refreshData} /></>}
 			</div>
 		</main>
 	);

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createInvoice } from '../api/api';
 
-const formatCurrency = (amount) => `$${Number(amount || 0).toFixed(2)}`;
+const formatCurrency = (amount) => `₹${Number(amount || 0).toFixed(2)}`;
 
 function InvoiceForm({ patients, services, onCreated }) {
 	const [patientId, setPatientId] = useState('');
