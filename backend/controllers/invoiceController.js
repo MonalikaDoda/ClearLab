@@ -52,7 +52,14 @@ export const recordPayment = async (req, res) => {
 
     if (amount <= 0) return res.status(400).json({ message: 'Invalid amount' });
 
-    invoice.amountPaid += Number(amount);
+    // Prevent overpayment
+    const newAmountPaid = Number(invoice.amountPaid) + Number(amount);
+    if (newAmountPaid > Number(invoice.totalAmount) || Number(invoice.amountPaid) === Number(invoice.totalAmount)) {
+      const remainingBalance = Number(invoice.totalAmount) - Number(invoice.amountPaid);
+      return res.status(400).json({ message: `Payment exceeds amount due — remaining balance is ₹${remainingBalance.toFixed(2)}.` });
+    }
+
+    invoice.amountPaid = newAmountPaid;
 
     if (invoice.amountPaid >= invoice.totalAmount) {
       invoice.status = 'paid';
