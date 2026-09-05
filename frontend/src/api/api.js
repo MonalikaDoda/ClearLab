@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: 'http://localhost:5000/api', headers: { 'Content-Type': 'application/json' } });
+const api = axios.create({ baseURL: 'https://clearlab.onrender.com/api', headers: { 'Content-Type': 'application/json' } });
 
 export const createPatient = async (patient) => (await api.post('/patients', patient)).data;
 export const getPatients = async () => (await api.get('/patients')).data;
