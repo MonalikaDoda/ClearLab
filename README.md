@@ -39,30 +39,30 @@ Invoices store a *snapshot* of each service's name and price at the time of bill
 ## Getting Started
 
 ### Backend
-\`\`\`
+```bash
 cd backend
 npm install
-\`\`\`
+```
 
 Create a `.env` file in `backend/` with:
-\`\`\`
+```
 MONGO_URI=your_mongodb_connection_string
 OPENROUTER_API_KEY=your_key
 GEMINI_API_KEY=your_key
 PORT=5000
-\`\`\`
+```
 
-\`\`\`
+Then run:
+```bash
 npm run dev
-\`\`\`
+```
 
 ### Frontend
-\`\`\`
+```bash
 cd frontend
 npm install
 npm run dev
-\`\`\`
-
+```
 ## Known Limitations
 
 - Reminders are drafted on-screen only; sending via SMS/WhatsApp is a manual step (no messaging API integrated in this version)
